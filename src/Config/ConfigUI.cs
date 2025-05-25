@@ -160,6 +160,8 @@ namespace VanillaUpgrades
 
             CreateToggleWithLabel(box, elementWidth, ToggleHeight, () => Config.settings.moreCameraZoom,
                 () => Config.settings.moreCameraZoom ^= true, 0, 0, "More Camera Zoom");
+            CreateToggleWithLabel(box, elementWidth, ToggleHeight, () => Config.settings.moreBuildCameraZoom,
+                () => Config.settings.moreBuildCameraZoom ^= true, 0, 0, "More Build Camera Zoom");
             CreateToggleWithLabel(box, elementWidth, ToggleHeight, () => Config.settings.moreCameraMove,
                 () => Config.settings.moreCameraMove ^= true, 0, 0, "More Camera Movement");
             CreateSeparator(box, elementWidth - 20);

@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using SFS.World;
+using SFS.Builds;
 using UnityEngine;
 
 // ReSharper disable InconsistentNaming
@@ -27,8 +28,19 @@ namespace VanillaUpgrades.Patches
         {
             if (!Config.settings.moreCameraZoom) return true;
             if (PlayerController.main.player.Value == null) return true;
-            __result = Mathf.Clamp(newValue, 0.05f, 2.5E+10f);
+            __result = Mathf.Clamp(newValue, 0.01f, 2.5E+10f);
             return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(BuildCamera), "MaxCameraDistance", MethodType.Getter)]
+    internal class BuildCamera_MaxDistance_Patch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(ref float __result)
+        {
+            if (!Config.settings.moreBuildCameraZoom) return;
+            __result *= 10f;
         }
     }
 }

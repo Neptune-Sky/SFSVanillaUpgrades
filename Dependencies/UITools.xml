@@ -6,60 +6,45 @@
     <members>
         <member name="T:UITools.ConfigurationMenu">
             <summary>
-            All-in-One configuration menu for mods with categories
+                All-in-One configuration menu for mods with categories
             </summary>
         </member>
         <member name="P:UITools.ConfigurationMenu.ContentSize">
             <summary>
-            Size of content that you should use while generating content
+                Size of content that you should use while generating content
             </summary>
         </member>
         <member name="M:UITools.ConfigurationMenu.Add(System.String,System.ValueTuple{System.String,System.Func{UnityEngine.Transform,UnityEngine.GameObject}}[])">
             <summary>
-            Function that let you add submenu with categories in configuration window
+                Function that let you add submenu with categories in configuration window
             </summary>
             <param name="title">Title of your submenu (it shouldn't be too big)</param>
             <param name="buttons">
-            Array of tuples of menu button name and function that generates content of menu and returns your content object (usually box).
-            Transform is parent that you can use for content. You should use ContentSize as your content size.
+                Array of tuples of menu button name and function that generates content of menu and returns your content object
+                (usually box).
+                Transform is parent that you can use for content. You should use ContentSize as your content size.
             </param>
         </member>
-        <member name="T:UITools.ModSettings`1">
+        <member name="T:UITools.ClosableWindow">
             <summary>
-            Abstract class that let you easily create your mod configuration
-            </summary>
-            <typeparam name="T">Data type which will be stored in config file</typeparam>
-        </member>
-        <member name="F:UITools.ModSettings`1.settings">
-            <summary>
-            Static variable for getting settings
+                Window with minimize button
             </summary>
         </member>
-        <member name="P:UITools.ModSettings`1.SettingsFile">
+        <member name="P:UITools.ClosableWindow.Size">
+            <inheritdoc />
+        </member>
+        <member name="P:UITools.ClosableWindow.Minimized">
             <summary>
-            Getting settings file path
+                Is window minimized?
             </summary>
         </member>
-        <member name="M:UITools.ModSettings`1.Initialize">
+        <member name="E:UITools.ClosableWindow.OnMinimizedChangedEvent">
             <summary>
-            You should call this function after creating an instance of class
+                Fired every time minimized state changed
             </summary>
         </member>
-        <member name="M:UITools.ModSettings`1.RegisterOnVariableChange(System.Action)">
-            <summary>
-            Allow you to subscribe save event to config variables change
-            </summary>
-            <param name="onChange">Action that you should subscribe to data variables onChange</param>
-        </member>
-        <member name="T:UITools.UIToolsBuilder">
-            <summary>
-                Builder for advanced UITools elements
-            </summary>
-        </member>
-        <member name="M:UITools.UIToolsBuilder.CreateNumberInput(UnityEngine.Transform,System.Int32,System.Int32,System.Single,System.Single,System.Int32,System.Int32)">
-            <summary>
-                Creates a number input with given parameters
-            </summary>
+        <member name="M:UITools.ClosableWindow.Init(UnityEngine.GameObject,UnityEngine.Transform)">
+            <inheritdoc />
         </member>
         <member name="T:UITools.NumberInput">
             <summary>
@@ -87,22 +72,173 @@
                 Event that will be called every time float value changed
             </summary>
         </member>
+        <member name="T:UITools.RadioButtons">
+            <summary>
+                Abstract class for radio buttons
+            </summary>
+        </member>
+        <member name="P:UITools.RadioButtons.Buttons">
+            <summary>
+                Read-only array of buttons
+            </summary>
+        </member>
+        <member name="P:UITools.RadioButtons.Selected">
+            <summary>
+                Determines what button is selected
+                Can be -1 if no button is selected
+            </summary>
+        </member>
+        <member name="P:UITools.RadioButtons.CanDeselect">
+            <summary>
+                Determines if button can be deselected by clicking on it
+            </summary>
+        </member>
+        <member name="P:UITools.RadioButtons.ButtonWidth">
+            <summary>
+                Determines width of buttons
+            </summary>
+        </member>
+        <member name="P:UITools.RadioButtons.ButtonHeight">
+            <summary>
+                Determines height of buttons
+            </summary>
+        </member>
+        <member name="P:UITools.RadioButtons.Spacing">
+            <summary>
+                Determines space between buttons
+            </summary>
+        </member>
+        <member name="E:UITools.RadioButtons.OnSelectedChanged">
+            <summary>
+                Event that will be called when selected button is changed
+            </summary>
+        </member>
+        <member name="M:UITools.RadioButtons.AddOption(System.String)">
+            <summary>
+                Add new option to radio buttons
+            </summary>
+            <param name="text">Text that will be displayed on button</param>
+        </member>
+        <member name="M:UITools.RadioButtons.SetOptions(System.String[])">
+            <summary>
+                Set array of options to radio buttons
+            </summary>
+            <param name="options">Array of options</param>
+        </member>
+        <member name="M:UITools.RadioButtons.Init(UnityEngine.GameObject,UnityEngine.Transform)">
+            <inheritdoc />
+        </member>
+        <member name="P:UITools.VerticalRadioButtons.Spacing">
+            <inheritdoc />
+        </member>
+        <member name="M:UITools.VerticalRadioButtons.CreateLayout(UnityEngine.GameObject)">
+            <inheritdoc />
+        </member>
+        <member name="P:UITools.HorizontalRadioButtons.Spacing">
+            <inheritdoc />
+        </member>
+        <member name="M:UITools.HorizontalRadioButtons.CreateLayout(UnityEngine.GameObject)">
+            <inheritdoc />
+        </member>
+        <member name="P:UITools.GridRadioButtons.Spacing">
+            <inheritdoc />
+        </member>
+        <member name="P:UITools.GridRadioButtons.ButtonWidth">
+            <inheritdoc />
+        </member>
+        <member name="P:UITools.GridRadioButtons.ButtonHeight">
+            <inheritdoc />
+        </member>
+        <member name="P:UITools.GridRadioButtons.ConstraintCount">
+            <summary>
+                Determines constraint size of grid
+            </summary>
+        </member>
+        <member name="P:UITools.GridRadioButtons.Constraint">
+            <summary>
+                Determines how grid will be filled
+            </summary>
+        </member>
+        <member name="P:UITools.GridRadioButtons.StartAxis">
+            <summary>
+                Determines if grid will fill columns or rows first
+            </summary>
+        </member>
+        <member name="T:UITools.UIToolsBuilder">
+            <summary>
+                Builder for advanced UITools elements
+            </summary>
+        </member>
+        <member name="M:UITools.UIToolsBuilder.CreateNumberInput(UnityEngine.Transform,System.Int32,System.Int32,System.Single,System.Single,System.Int32,System.Int32)">
+            <summary>
+                Creates a number input with given parameters
+            </summary>
+        </member>
+        <member name="M:UITools.UIToolsBuilder.CreateClosableWindow(UnityEngine.Transform,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Single,System.String,System.Boolean)">
+            <summary>
+                Creates closable window
+            </summary>
+        </member>
+        <member name="M:UITools.UIToolsBuilder.CreateRadioButtons``1(UnityEngine.Transform,System.Int32,System.Int32,System.Int32,System.Int32,System.String[])">
+            <summary>
+                Creates RadioButtons with given layout type
+            </summary>
+        </member>
+        <member name="T:UITools.ModSettings`1">
+            <summary>
+                Abstract class that let you easily create your mod configuration
+            </summary>
+            <typeparam name="T">Data type which will be stored in config file</typeparam>
+        </member>
+        <member name="F:UITools.ModSettings`1.settings">
+            <summary>
+                Static variable for getting settings
+            </summary>
+        </member>
+        <member name="P:UITools.ModSettings`1.SettingsFile">
+            <summary>
+                Getting settings file path
+            </summary>
+        </member>
+        <member name="M:UITools.ModSettings`1.Initialize">
+            <summary>
+                You should call this function after creating an instance of class
+            </summary>
+        </member>
+        <member name="M:UITools.ModSettings`1.RegisterOnVariableChange(System.Action)">
+            <summary>
+                Allow you to subscribe save event to config variables change
+            </summary>
+            <param name="onChange">Action that you should subscribe to data variables onChange</param>
+        </member>
+        <member name="T:UITools.IUpdatable">
+            <summary>
+                Implement this interface on main mod class if you want it to be updated at game start
+            </summary>
+        </member>
+        <member name="P:UITools.IUpdatable.UpdatableFiles">
+            <summary>
+                Returns dictionary of files that should be updated
+                string is web link, FilePath is path where file will be downloaded
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:UITools.PositionSaver">
             <summary>
-            Utility class that adds extra saving functionality
+                Utility class that adds extra saving functionality
             </summary>
         </member>
         <member name="M:UITools.PositionSaver.RegisterPermanentSaving(SFS.UI.ModGUI.Window,System.String)">
             <summary>
-            Allow you to register you window for saving that will save position even through game relaunch.
-            You should call it every time you rebuild the window.
-            Default saving function should be disabled!
+                Allow you to register you window for saving that will save position even through game relaunch.
+                You should call it every time you rebuild the window.
+                Default saving function should be disabled!
             </summary>
             <param name="window">Window that will be saved</param>
             <param name="uniqueName">Unique name id which uses to find your window position</param>
             <example>
-            The following code register window for permanent position saving
-            <code>
+                The following code register window for permanent position saving
+                <code>
             Window window = Builder.CreateWindow(..., savePosition: false);
             window.RegisterPermanentSaving("UITools.myAwesomeWindow");
             </code>
@@ -110,27 +246,40 @@
         </member>
         <member name="T:UITools.UIExtensions">
             <summary>
-            Class that provides some extra functionality for default 
+                Class that provides some extra functionality for default
             </summary>
         </member>
         <member name="M:UITools.UIExtensions.RegisterOnDropListener(SFS.UI.ModGUI.Window,System.Action)">
             <summary>
-            Allow you to register some actions on window drop after dragging.
+                Allow you to register some actions on window drop after dragging.
             </summary>
             <param name="window">The window for which the action will be subscribed</param>
             <param name="onDrop">Action that will be called every time the window is dropped</param>
             <example>
-            The following code register writing message in the console every time window dropped
-            <code>
+                The following code register writing message in the console every time window dropped
+                <code>
             Window window = Builder.CreateWindow(...);
             window.RegisterOnDropListener(() => Debug.Log("Window is dropped!"));
             </code>
             </example>
         </member>
+        <member name="M:UITools.UIExtensions.SetEnabled(SFS.UI.ModGUI.Button,System.Boolean)">
+            <summary>
+                Set if button is interactable
+            </summary>
+        </member>
+        <member name="M:UITools.UIExtensions.SetSelected(SFS.UI.ModGUI.Button,System.Boolean)">
+            <summary>
+                Set if button is selected
+            </summary>
+        </member>
         <member name="T:UITools.Main">
             <summary>
-            Main class of the mod
+                Main class of the mod
             </summary>
+        </member>
+        <member name="M:UITools.Main.#ctor">
+            <summary>Default constructor</summary>
         </member>
         <member name="P:UITools.Main.ModNameID">
             <summary>NameID</summary>
@@ -153,19 +302,54 @@
         <member name="P:UITools.Main.IconLink">
             <summary>Icon</summary>
         </member>
-        <member name="M:UITools.Main.#ctor">
-            <summary>Default constructor</summary>
+        <member name="P:UITools.Main.UpdatableFiles">
+            <inheritdoc />
         </member>
         <member name="M:UITools.Main.Early_Load">
             <summary>Early Load</summary>
         </member>
+        <member name="M:UITools.Main.Load">
+            <summary>
+                Load
+            </summary>
+        </member>
         <member name="T:UITools.GameObject_Local">
             <summary>
-            Observable GameObject variable
+                Observable GameObject variable
             </summary>
         </member>
         <member name="M:UITools.GameObject_Local.IsEqual(UnityEngine.GameObject,UnityEngine.GameObject)">
             <summary>Comparison</summary>
+        </member>
+        <member name="T:UITools.UIUtility">
+            <summary>
+                Utility for UI
+            </summary>
+        </member>
+        <member name="P:UITools.UIUtility.CanvasRectTransform">
+            <summary>
+                Rect Transform of the canvas
+            </summary>
+        </member>
+        <member name="P:UITools.UIUtility.CanvasPixelSize">
+            <summary>
+                Get the canvas pixel size
+            </summary>
+        </member>
+        <member name="M:UITools.UIUtility.CreateTexture(System.String)">
+            <summary>
+                Creates texture from base64 string
+            </summary>
+        </member>
+        <member name="T:UITools.AsyncDialogs">
+            <summary>
+                Opens MenuGenerator as async functions
+            </summary>
+        </member>
+        <member name="M:UITools.AsyncDialogs.OpenConfirmation(SFS.Input.CloseMode,System.Func{System.String},System.Func{System.String})">
+            <summary>
+                Works same as MenuGenerator.OpenConfirmation. Returns true if the user pressed the confirm button.
+            </summary>
         </member>
     </members>
 </doc>
