@@ -113,7 +113,7 @@ namespace VanillaUpgrades.World
             if (missionLogButton == null)
             {
                 GameObject completeButton =
-                    GameObject.Find("Complete Buttons").transform.Find("Complete Button").gameObject;
+                    GameObject.Find("Complete Buttons")?.transform.Find("Complete Button").gameObject;
                 if (completeButton != null)
                 {
                     missionLogButton = Builder.CreateButton(completeButton.transform.parent,

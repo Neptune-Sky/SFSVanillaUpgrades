@@ -148,6 +148,10 @@ namespace VanillaUpgrades
                 val => val.Round(0).ToString(CultureInfo.InvariantCulture) + "");
 
             CreateSeparator(box, elementWidth - 20);
+            
+            CreateToggleWithLabel(box, elementWidth, ToggleHeight, () => Config.settings.skipBuildNewPrompt,
+                () => Config.settings.skipBuildNewPrompt ^= true, 0, 0, "Skip Build New Rocket Prompt");
+            CreateSeparator(box, elementWidth - 20);
 
             CreateToggleWithLabel(box, elementWidth, ToggleHeight, () => !Config.settings.allowBackgroundProcess,
                 () => Config.settings.allowBackgroundProcess.Value ^= true, 0, 0, "Pause Game When Focus is Lost");

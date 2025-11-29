@@ -35,6 +35,7 @@
     <ItemGroup>
         <Compile Include="src\Build\Patches\DisableAdaptation.cs" />
         <Compile Include="src\Build\Patches\ReplacePickCategories.cs" />
+        <Compile Include="src\Build\Patches\SkipBuildNewPrompt.cs" />
         <Compile Include="src\Config\Config.cs" />
         <Compile Include="src\Config\ConfigUI.cs" />
         <Compile Include="src\Config\CustomKeys.cs" />
