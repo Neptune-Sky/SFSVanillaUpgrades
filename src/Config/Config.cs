@@ -42,7 +42,7 @@ namespace VanillaUpgrades
         public bool ktUnits = true;
 
         // Misc
-        public bool skipBuildNewPrompt;
+        public bool skipBuildNewPrompt = true;
         public bool stopTimewarpOnEncounter = true;
         public bool moreCameraZoom = true;
         public bool moreCameraMove = true;
