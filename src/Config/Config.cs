@@ -57,7 +57,7 @@ namespace VanillaUpgrades
 
         private Action saveAction;
 
-        protected override FilePath SettingsFile { get; } = Main.modFolder.ExtendToFile("Config.txt");
+        protected override FilePath SettingsFile { get; } = new(Main.modFolder.GetFileUnsafe("Config.txt").Path);
 
         public static void Load()
         {

@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using HarmonyLib;
 using SFS;
-using SFS.IO;
 using SFS.Parsers.Json;
 using SFS.World;
 using UnityEngine;
+
 
 namespace VanillaUpgrades.World
 {
@@ -29,33 +28,34 @@ namespace VanillaUpgrades.World
             if (_timeSinceLastAutosave < Config.settings.persistentVars.minutesUntilAutosave * 60) return;
 
             var fileList = new AutosaveFile();
-            var rootPath = new FolderPath(Base.worldBase.paths.path + "/");
-            var quicksavesPath = new FolderPath(Base.worldBase.paths.quicksavesPath + "/");
+            var rootPath = Base.worldBase.paths.path;
+            var quicksavesPath = Base.worldBase.paths.quicksavesPath;
 
-            if (File.Exists(rootPath + "Autosaves.txt"))
+            if (rootPath.GetFileUnsafe("Autosaves.txt").Exists())
             {
-                var filePath = rootPath + "Autosaves.txt";
+                var filePath = rootPath.GetFileUnsafe("Autosaves.txt");
                 try
                 {
-                    var jsonContent = File.ReadAllText(filePath);
+                    var jsonContent = filePath.ReadText();
                     fileList = JsonUtility.FromJson<AutosaveFile>(jsonContent);
                 }
                 catch (Exception)
                 {
-                    File.Delete(filePath);
+                    filePath.Delete();
                 }
             }
 
             var toSave = Traverse.Create(GameManager.main).Method("CreateWorldSave").GetValue() as WorldSave;
             var name = "Autosave " + DateTime.Now.ToString("yyyy-MM-dd HH_mm_ss");
-            FolderPath where = new(quicksavesPath + name);
+            IFolder where = quicksavesPath.GetFolderUnsafe(name).Create();
 
             WorldSave.Save(where, true, toSave, Base.worldBase.IsCareer);
 
             fileList.fileNames.Add(name);
 
             // Check if directories exist and remove non-existent ones
-            fileList.fileNames = fileList.fileNames.Where(dir => Directory.Exists(Path.Combine(quicksavesPath, dir)))
+            fileList.fileNames = fileList.fileNames
+                .Where(dir => quicksavesPath.GetFolderUnsafe(dir).Exists())
                 .ToList();
 
             // If the number of directories exceeds the limit, delete the oldest ones
@@ -63,22 +63,27 @@ namespace VanillaUpgrades.World
             {
                 // Get directories with their last modified times
                 var directoryInfos = fileList.fileNames
-                    .Select(dir => new DirectoryInfo(Path.Combine(quicksavesPath, dir)))
-                    .OrderBy(dirInfo => dirInfo.LastWriteTime)
+                    .Select(dir => new
+                    {
+                        Name = dir,
+                        Folder = quicksavesPath.GetFolderUnsafe(dir),
+                        LastWriteTime = quicksavesPath.GetFolderUnsafe(dir).GetLastModifiedTime()
+                    })
+                    .Where(x => x.Folder.Exists())
+                    .OrderBy(x => x.LastWriteTime)
                     .ToList();
 
-                // Calculate how many directories to delete
-                var excessCount = fileList.fileNames.Count - Config.settings.persistentVars.allowedAutosaveSlots;
+                int toDelete = directoryInfos.Count - Config.settings.persistentVars.allowedAutosaveSlots;
 
-
-                // Delete the oldest directories
-                for (var i = 0; i < excessCount; i++) Directory.Delete(directoryInfos[i].FullName, true);
-
-                // Update the directory list to exclude deleted directories
-                fileList.fileNames = directoryInfos.Skip(excessCount).Select(dirInfo => dirInfo.Name).ToList();
+                for (int i = 0; i < toDelete; i++)
+                {
+                    directoryInfos[i].Folder.Delete();
+                    fileList.fileNames.Remove(directoryInfos[i].Name);
+                }
             }
 
-            JsonWrapper.SaveAsJson(new FilePath(rootPath + "Autosaves.txt"), fileList, false);
+
+            JsonWrapper.SaveAsJson(rootPath.GetFileUnsafe("Autosaves.txt"), fileList, false);
 
             _timeSinceLastAutosave = 0f;
         }

@@ -245,7 +245,7 @@ namespace VanillaUpgrades.World
             var trueAngle = Vector2.SignedAngle(facing, orbitAngleVector);
 
             var planetSurface = loc.planet.TimewarpRadius_Ascend - loc.planet.Radius;
-            if (loc.TerrainHeight < planetSurface)
+            if (loc.GetTerrainHeight(true) < planetSurface)
             {
                 angle = trueAngle.ToString("F1", CultureInfo.InvariantCulture) + "°";
                 angleTitle = "Local Angle";
