@@ -33,6 +33,7 @@ namespace VanillaUpgrades.Build
         {
             categories = picklists.Count;
             if (categories <= 24) return true;
+            if (window != null) return false;
             List<Button> buttons = new();
             GameObject gameObject = inst.gameObject;
             var rows = Math.Clamp(picklists.Count, 1, 24);
