@@ -8,6 +8,7 @@ using SFS.UI;
 using TMPro;
 using UITools;
 using UnityEngine;
+using UnityEngine.UI;
 using VanillaUpgrades.Build;
 using VanillaUpgrades.World;
 using Console = ModLoader.IO.Console;
@@ -26,7 +27,7 @@ namespace VanillaUpgrades
 
         private static Harmony patcher;
 
-        private static int modCount = 2;
+        public static int modCount = 2;
         public override string ModNameID => "VanUp";
         public override string DisplayName => "Vanilla Upgrades";
         public override string Author => "NeptuneSky";
@@ -79,13 +80,10 @@ namespace VanillaUpgrades
             mainObject = new GameObject("NeptuneMainObject", typeof(ErrorNotification));
             Object.DontDestroyOnLoad(mainObject);
             mainObject.SetActive(true);
-            
-            UpdateVersionText();
         }
 
         private static void SubscribeToScenes()
         {
-            SceneHelper.OnHomeSceneLoaded += UpdateVersionText;
             SceneHelper.OnBuildSceneLoaded += BuildSettings.Setup;
             SceneHelper.OnWorldSceneLoaded += WorldManager.Setup;
         }
@@ -101,16 +99,6 @@ namespace VanillaUpgrades
             ApplicationUtility.Relaunch();
 
             return true;
-        }
-
-        private static void UpdateVersionText()
-        {
-            GameObject version = GameObject.Find("Version");
-            if (!version) return;
-            modCount = Loader.main.GetLoadedMods().Length;
-
-            version.GetComponent<TextMeshProUGUI>().autoSizeTextContainer = true;
-            version.GetComponent<TextAdapter>().Text += " - Modded\n(" + modCount + " Mods Loaded)";
         }
     }
 

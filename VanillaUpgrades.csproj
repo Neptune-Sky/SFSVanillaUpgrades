@@ -42,6 +42,7 @@
         <Compile Include="src\ErrorNotification.cs" />
         <Compile Include="src\Patches\BugFixes.cs" />
         <Compile Include="src\Patches\DisplayAccurateTWR.cs" />
+        <Compile Include="src\Patches\UpdateVersionText.cs" />
         <Compile Include="src\Patches\LoosenCameraRestrictions.cs" />
         <Compile Include="src\Patches\MenuPatches.cs" />
         <Compile Include="src\Patches\UnitsPatches.cs" />
